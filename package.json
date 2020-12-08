@@ -1,0 +1,40 @@
+{
+  "name": "zohointegration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "startup.js",
+  "scripts": {
+    "start": "nodemon src/startup.js",
+    "tunnel": "ngrok http 3000",
+    "homolog": "export NODE_ENV=homolog && node src/startup.js",
+    "prod": "export NODE_ENV=prod && node src/startup.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "ngrok": "^3.2.7",
+    "sucrase": "^3.15.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "config": "^1.29.4",
+    "express": "^4.17.1",
+    "form-data": "^3.0.0",
+    "knex": "^0.21.1",
+    "lodash.isempty": "^4.4.0",
+    "moment": "^2.29.0",
+    "mongoose": "^5.9.6",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.5",
+    "uuidv4": "^6.2.3"
+  }
+}
