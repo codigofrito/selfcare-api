@@ -30,17 +30,35 @@ const putEdit = async (entity) => {
 const getAll = async () => {
   let result
   await knex("users_has_tasks")
-  .innerJoin("users", "users_has_tasks.user_id", "=", "users.id")
-  .innerJoin("tasks", "users_has_tasks.task_id", "=", "tasks.id")
-  .then((dados) => {
-    result = dados
-  })
+    .innerJoin("users", "users_has_tasks.user_id", "=", "users.id")
+    .innerJoin("tasks", "users_has_tasks.task_id", "=", "tasks.id")
+    .then((dados) => {
+      result = dados
+    })
   return result
 }
 
-const getById = async (task_id, user_id) => {
+const getById = async (user_id) => {
   let result
   await knex("users_has_tasks")
+    .innerJoin("users", "users_has_tasks.user_id", "=", "users.id")
+    .innerJoin("tasks", "users_has_tasks.task_id", "=", "tasks.id")
+    .where({ "user_id": user_id })
+    .then((dados) => {
+      if (dados.length == 0) {
+        result = "Id não encontrado - Nothing found"
+      } else {
+        result = dados
+      }
+    })
+  return result
+}
+
+const getByIdDual = async (task_id, user_id) => {
+  let result
+  await knex("users_has_tasks")
+    .innerJoin("users", "users_has_tasks.user_id", "=", "users.id")
+    .innerJoin("tasks", "users_has_tasks.task_id", "=", "tasks.id")
     .where({
       "user_id": user_id,
       "task_id": task_id
@@ -72,6 +90,7 @@ module.exports = {
   postNew,
   putEdit,
   getById,
+  getByIdDual,
   getAll,
   deleteById
 }

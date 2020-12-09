@@ -1,4 +1,4 @@
-const repository = require('../managers/usersHasTasksManager')
+const repository = require('../managers/taskHistoryManager')
 
 const getAll = async () => {
   const result = await repository.getAll()
@@ -6,12 +6,16 @@ const getAll = async () => {
 }
 
 const getById = async (bodyJson) => {
-  let result = {}
   let response
-  if (Object.keys(bodyJson).length == 1) {
-    response = await repository.getById(bodyJson.user_id)
+  let result = {}
+  if (Object.keys(bodyJson).length == 2) {
+    response = await repository.getByIdDual(bodyJson.users_has_tasks_task_id, bodyJson.users_has_tasks_user_id)
   } else {
-    response = await repository.getByIdDual(bodyJson.task_id, bodyJson.user_id)
+    if (bodyJson.users_has_tasks_task_id){
+      response = await repository.getByIdTask(bodyJson.users_has_tasks_task_id)
+    } else{
+      response = await repository.getByIdUser(bodyJson.users_has_tasks_user_id)
+    }
   }
   result.status = Array.isArray(response)
   if (result.status) {
@@ -41,7 +45,7 @@ const putById = async (bodyJson) => {
 }
 
 const deleteById = async (bodyJson) => {
-  const response = await repository.deleteById(bodyJson.user_id, bodyJson.task_id)
+  const response = await repository.deleteById(bodyJson.users_has_tasks_user_id, bodyJson.users_has_tasks_task_id)
   return response
 }
 
@@ -50,21 +54,18 @@ const formatJson = (resultQuery) => {
   resultQuery.map((item) => {
     let newObjeto
     newObjeto = {
-      push_notification: item.push_notification,
-      period: item.period,
-      schedule: item.schedule,
-      user:
-      {
+      done: item.done,
+      users_has_tasks: {
+        users_has_tasks_task_id: item.users_has_tasks_task_id,
+        task_id: item.task_id,
+        users_has_tasks_user_id: item.users_has_tasks_user_id,
         user_id: item.user_id,
-        name: item.name
+        push_notification: item.push_notification,
+        period: item.period,
+        schedule: item.schedule
       },
-      task:
-      {
-        task_id: item.id,
-        title: item.title,
-        description: item.description,
-        image_url: item.image_url
-      }
+      created_at: item.created_at,
+      updated_at: item.updated_at
     }
     newJson.push(newObjeto)
   })

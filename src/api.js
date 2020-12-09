@@ -5,6 +5,7 @@ const  bodyParser = require( 'body-parser')
 const taskWebService = require ('./controllers/taskController')
 const userWebService = require ('./controllers/userController')
 const userHasTaskWebService = require ('./controllers/usersHasTasksController')
+const taskHistoryWebService = require ('./controllers/taskHistoryController')
 
 const apiPort = config.get('port')
 const api = express()
@@ -17,6 +18,7 @@ exports.start = () => {
   api.use('/', taskWebService)
   api.use('/', userWebService)
   api.use('/', userHasTaskWebService)
+  api.use('/', taskHistoryWebService)
 
   server = api.listen(
     apiPort,
